@@ -3,7 +3,10 @@ import math
 import subprocess
 from datetime import datetime
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+
+
 import socket
 import importlib
 import os,ast
@@ -82,7 +85,7 @@ EARLY_TOLERANCE=10
 
 TRAIN_FILES = provider.getDataFiles(os.path.join(H5_DIR, 'train_files.txt'))
 TEST_FILES = provider.getDataFiles(os.path.join(H5_DIR, 'test_files.txt'))
-                                                                   
+
 
 def log_string(out_str):
     LOG_FOUT.write(out_str+'\n')
@@ -281,6 +284,7 @@ def eval_one_epoch(sess, ops, test_writer):
     for fn in range(len(TEST_FILES)):
         log_string('----' + str(fn) + '-----')
         current_file = os.path.join(H5_DIR,TEST_FILES[test_idxs[fn]])
+        print(current_file)
         current_data, current_label, current_global = provider.load_h5(current_file,'class',glob=True)
         current_data, current_label,current_global, _ = provider.shuffle_data(current_data, np.squeeze(current_label),global_pl=current_global)
         current_label = np.squeeze(current_label)

@@ -16,7 +16,7 @@ def shuffle_data(data, labels,global_pl=[]):
   """
   idx = np.arange(len(labels))
   np.random.shuffle(idx)
-  if global_pl != []:
+  if len(global_pl)!=0:
     return data[idx,:], labels[idx], global_pl[idx,:], idx
   else:
     return data[idx,:], labels[idx],idx
